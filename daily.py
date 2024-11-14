@@ -69,3 +69,32 @@ def min_digits(num: str, k:int):
     ret = ''.join(stack).lstrip('0')
     return ret if ret else '0'
 
+
+class Solution:
+    def licenseKeyFormatting(self, s: str, k: int) -> str:
+        stack = []
+        cur_str  = ''
+        for i in range(len(s) - 1, -1, -1):
+            letter = s[i]
+            if letter == '-':
+                continue
+            cur_str += letter.upper()
+            if len(cur_str) == k:
+                stack.append(cur_str)
+                cur_str = ''
+        if cur_str:
+            stack.append(cur_str)
+        
+        return '-'.join(stack)[::-1]
+
+def find_longest(input: str):
+    path = {}
+    longest = 0
+    for line in input.split('\n'):
+        depth = line.count('\t')
+        name = line.lstrip('\t')
+        if '.' in name:
+            longest = max(longest, len(path[depth] + '/' + name))
+        else:
+            path[depth + 1] = path[depth] + '/' + name
+    return longest
