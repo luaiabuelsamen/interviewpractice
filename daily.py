@@ -98,3 +98,32 @@ def find_longest(input: str):
         else:
             path[depth + 1] = path[depth] + '/' + name
     return longest
+
+
+def two_sum(nums, target):
+    sums = {}
+    for i, num in enumerate(nums):
+        if num in sums:
+            return [sums[num], i]
+        
+        sums[target - num] = i
+
+def prisoner_swap(cells, n):
+    memo = {}
+
+    def swap(curcell):
+        return [0] + [int(curcell[i-1] == curcell[i+1])for i in range(1, len(cells) - 1)] + [0]
+    
+    while n > 0:
+        index = tuple(cells)
+        if index in memo:
+            n %= (memo[index] - n)
+            if n == 0:
+                break
+        else:
+            memo[index] = n
+        
+        if n > 0:
+            n -= 1
+            cells = swap(cells)
+    return cells
