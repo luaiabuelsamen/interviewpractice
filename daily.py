@@ -127,3 +127,21 @@ def prisoner_swap(cells, n):
             n -= 1
             cells = swap(cells)
     return cells
+
+def isolate_vps(s):
+    if not s:
+        return s
+    stack = []
+    left = 0
+    ret = ""
+    for right, char in enumerate(s):
+        if stack == '(':
+            stack.append(char)
+        else:
+            stack.pop()
+        if not stack:
+            ret += s[right + 1: left]
+    return ret
+
+def alice_game(n):
+    return n % 2 == 0
