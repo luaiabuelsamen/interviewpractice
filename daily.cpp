@@ -28,4 +28,20 @@ public:
         }
         return false;
     }
+
+    int longest_unique_substring(string s){
+        int left = 0;
+        int max_len = 0;
+        unordered_map <char, int> hash_map;
+
+        for (int right = 0; right < s.length(); ++right){
+            if (hash_map.count(s[right]) && hash_map[s[right]] >= left){
+                left =  hash_map[s[right]] + 1;
+            }
+            max_len = max(max_len, right - left + 1);
+            hash_map[s[right]] = right;
+        }
+        return max_len;
+
+    }
 };
