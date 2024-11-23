@@ -59,5 +59,28 @@ public:
         return true;
     }
 
-    
+    struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode() : val(0), next(nullptr) {}
+      ListNode(int x) : val(x), next(nullptr) {}
+      ListNode(int x, ListNode *next) : val(x), next(next) {}
+    };
+
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode dummy = ListNode(0);
+        ListNode* cur = &dummy;
+        int carry = 0;
+        int l1_val, l2_val;
+        while(l1 || l2 || carry) {
+            l1_val = l1? l1->val : 0;
+            l2_val = l2? l2->val : 0;
+            cur->next = new ListNode((l1_val + l2_val + carry)%10);
+            carry = (l1_val + l2_val + carry) / 10;
+            cur = cur->next;
+            if (l1) l1 = l1->next;
+            if (l2) l2 = l2->next;
+        }
+        return dummy.next;
+    }
 };
