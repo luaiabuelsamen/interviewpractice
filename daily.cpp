@@ -44,4 +44,20 @@ public:
         return max_len;
 
     }
+
+    bool checkSorted(vector<int>& list){
+        if (!list.size()){
+            return true;
+        }
+        int prev_num = list[0];
+        for (int i = 1; i < list.size(); i++) {
+            if (list[i] < prev_num) {
+                return false;
+            }
+            prev_num = list[i];
+        }
+        return true;
+    }
+
+    
 };
