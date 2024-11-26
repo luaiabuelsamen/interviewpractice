@@ -58,7 +58,6 @@ public:
         }
         return true;
     }
-
     struct ListNode {
       int val;
       ListNode *next;
@@ -132,5 +131,54 @@ public:
             }
         }
         return result;
+    }
+
+    string max_palindromic(string& s) {
+        int start = 0, maxLength = 1;
+        int n = s.length();
+        vector<vector<bool>> dp (n, vector<bool>(n, false));
+
+        for (int i = 0; i < n; i ++) {
+            dp[i][i] = true;
+        }
+
+        for(int i = 0; i < n - 1; i ++) {
+            if(s[i] == s[i + 1]){
+                dp[i][i + 1] = true;
+                start = i;
+                maxLength = 2;
+            }
+        }
+
+        for (int len = 3; len < n; len ++){
+            for (int i = 0; i < n - len; i ++){
+                int j = len + i + 1;
+                if (s[i] ==  s[j] && dp[j + 1][j - 1]){
+                    dp[i][j] = true;
+                    start = i;
+                    maxLength = len;
+                }
+            }
+        }
+
+        return s.substr(start, maxLength);
+    }
+
+    vector<vector<int>> getKClosest(vector<vector<int>>& points, int k){
+        priority_queue<pair<int, vector<int>>> maxHeap;
+        vector<vector<int>> minKpoints;
+        for(vector<int> point: points){
+            maxHeap.push({point[0]*point[0] + point[1]*point[1], point});
+            if (maxHeap.size() > k){
+                maxHeap.pop();
+            }
+        }
+
+        while(!maxHeap.empty()){
+            minKpoints.push_back(maxHeap.top().second);
+            maxHeap.pop();
+        }
+
+        return minKpoints;
     }
 };
