@@ -181,4 +181,47 @@ public:
 
         return minKpoints;
     }
+
+    bool check_bits(vector<int> bits){
+        int n = bits.size();
+        int i = 0;
+        while(i < n - 1){
+            if(bits[i] == 1){
+                i += 2;
+            }else {
+                i += 1;
+            }
+        }
+        return i == n - 1;
+    }
+
 };
+
+class KthLargest {
+public:
+    int k;
+    priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
+    KthLargest(int k, vector<int>& nums) {
+        this->k = k;
+        for(int num: nums){
+            minHeap.push(num);
+            if (minHeap.size() > k){
+                minHeap.pop();
+            }
+        }
+    }
+    
+    int add(int val) {
+        minHeap.push(val);
+        if (minHeap.size() > k){
+                minHeap.pop();
+        }
+        return minHeap.top();
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
