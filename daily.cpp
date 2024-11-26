@@ -83,4 +83,54 @@ public:
         }
         return dummy.next;
     }
+
+    bool isPalindrome(int x) {
+        
+        if (x < 0 ){
+            return false;
+        }
+        if (x < 10 ){
+            return true;
+        }
+
+        int biggest = x / (x / 10);
+        int smallest = x % 10;
+    }
+
+    void inverse_string(vector<char>& s){
+        for(int i = 0; i < s.size()/ 2; i ++){
+            swap(s[i], s[s.size() -i - 1]);
+        }
+    }
+
+    int count_blocks(vector<vector<int>>& mat){
+        int m = mat.size(), n = mat[0].size();
+        vector<vector<int>> heights(m, vector<int>(0, n));
+        
+        for (int row = 0; row < m; row++){
+            for (int col = 0; col < n; col++) {
+                if(mat[row][col] == 1){
+                    heights[row][col] = (row == 0) ? 1 : heights[row - 1][col] + 1;
+                }
+            }
+        }
+
+        int result = 0;
+        for(int i = 0; i < m; i ++){
+            vector<int> stack;
+            int count = 0;
+            for( int j = 0; j < n; j ++){
+                while(!stack.empty() && heights[i][stack.back()] >= heights[i][j]){
+                    int idx = stack.back();
+                    stack.pop_back();
+                    count -= heights[i][idx] * (stack.empty() ? 1 + idx : idx - heights[i][stack.back()]);
+                }
+
+                count += heights[i][j] * (stack.empty() ? 1 + j : j - heights[i][stack.back()]);
+                result += count;
+                stack.push_back(j);
+            }
+        }
+        return result;
+    }
 };
