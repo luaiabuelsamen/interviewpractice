@@ -195,6 +195,72 @@ public:
         return i == n - 1;
     }
 
+    vector<string> invalidTransactions(vector<string>& transactions) {
+
+        vector<tuple<string, int, int, string>> parsedTransactions;
+        int pos, time, price;
+        string name, city;
+
+        vector<string> ret;
+
+        for(int i = 0; i < transactions.size(); i ++){
+            string transaction = transactions[i];
+
+            pos = transaction.find(',');
+            name = transaction.substr(0, pos);
+            transaction.erase(0, pos + 1);
+
+            pos = transaction.find(',');
+            time = stoi(transaction.substr(0, pos));
+            transaction.erase(0, pos + 1);
+
+            pos = transaction.find(',');
+            price = stoi(transaction.substr(0, pos));
+            transaction.erase(0, pos + 1);
+
+            city = transaction;            
+
+            parsedTransactions.push_back({name, time, price, city});
+        }
+
+        for(int i = 0; i < parsedTransactions.size(); i ++){
+            if(get<2>(parsedTransactions[i]) > 1000){
+                ret.push_back(transactions[i]);
+                continue;
+            }
+
+            for(int j = 0; j < parsedTransactions.size(); j++){
+                if(i != j && get<0>(parsedTransactions[i]) == get<0>(parsedTransactions[j]) && get<0>(parsedTransactions[i]) != get<3>(parsedTransactions[j])){
+                    if(get<2>(parsedTransactions[j]) - get<2>(parsedTransactions[i]) < 60 ){
+                        ret.push_back(transactions[i]);
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    int twoCitySchedCost(vector<vector<int>>& costs) {
+        int n = costs.size();
+        int total = 0;
+        sort(costs.begin(), costs.end(), [](const vector<int>& a, const vector<int>& b){
+            int dif1 = a[0] - a[1];
+            int dif2 = b[0] - b[1];
+            return dif1 < dif2;
+        });
+
+        for(int i = 0; i < n /2; i ++){
+            total += costs[i][0];
+        }
+
+        for(int i = n/2; i < n; i ++){
+            total += costs[i][1];
+        }
+
+        return total;
+    }
+
 };
 
 class KthLargest {
