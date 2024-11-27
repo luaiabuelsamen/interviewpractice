@@ -261,6 +261,36 @@ public:
         return total;
     }
 
+    struct Node {
+        int data;
+        Node* next;
+
+        Node(int val) : data(val), next(nullptr) {}
+    };
+
+    void removeOccurences(Node*& head, int val){
+        if (head == nullptr){
+            return;
+        }
+
+        while(head != nullptr && head->data == val){
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+
+        Node* curr = head;
+        while(curr->next != nullptr){
+            if(curr->next->data == val){
+                Node * temp = curr->next;
+                curr->next = curr->next->next;
+                delete temp;
+            }else{
+                curr=curr->next;
+            }
+        }
+    }
+
 };
 
 class KthLargest {
@@ -291,3 +321,41 @@ public:
  * KthLargest* obj = new KthLargest(k, nums);
  * int param_1 = obj->add(val);
  */
+
+
+template <typename T>
+
+ class CircularBuffer{
+    private:
+        int size;
+        int head;
+        int tail;
+        vector<T> buffer;
+        int curSize;
+
+    public:
+        CircularBuffer(int size): size(size), head(0), tail(0), buffer(size), curSize(0){
+        }
+
+        void push(T val){
+            buffer[head] = val;
+            head = (head + 1) % size;
+            if(curSize == size){
+                tail = (tail + 1) % size;
+            }else{
+                curSize++;
+            }
+
+        }
+
+        T pop(){
+            if(curSize == 0){
+                raise runtime_error('buff empty');
+            }
+
+            T val = buffer[head];
+            head = (head - 1 + size) % size;
+            curSize --;
+            return val;
+        }
+ };
