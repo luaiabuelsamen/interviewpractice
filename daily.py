@@ -145,3 +145,24 @@ def isolate_vps(s):
 
 def alice_game(n):
     return n % 2 == 0
+
+def most_words(paragraph: str, blocked: list[str]):
+    blocked = set(blocked)
+    cleaned_par = []
+    for letter in paragraph:
+        if ord('A') <= ord(letter) <= ord('z'):
+            cleaned_par.append(letter.lower())
+        else:
+            cleaned_par.append(' ')
+    paragraph = ''.join(cleaned_par)
+
+    word_count = defaultdict(int)
+    max_word = ''
+    max_count = 0
+    for word in cleaned_par.split(' '):
+        if word not in blocked:
+            word_count[word] += 1
+            if word_count[word] > max_count:
+                max_count = word_count[word]
+                max_word = word
+    return max_word

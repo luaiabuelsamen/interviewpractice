@@ -2,6 +2,13 @@
     "files.associations": {
         "vector": "cpp",
         "unordered_map": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "deque": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "string": "cpp"
     }
 }

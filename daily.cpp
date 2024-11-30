@@ -291,6 +291,58 @@ public:
         }
     }
 
+
+    int shortest_path(vector<vector<int>> forest){
+        vector<vector<int>> trees;
+        for(int row = 0; row < forest.size(); row++){
+            for(int col = 0; col < forest[0].size(); col ++){
+                int tree = forest[row][col];
+                if(tree != 0 && tree != 1){
+                    trees.push_back({row, col});
+                }
+            }
+        }
+
+        sort(trees.begin(), trees.end(), [forest](const vector<int>& a, const vector<int>& b){
+            int tree1 = forest[a[0]][a[1]];
+            int tree2 = forest[b[0]][b[1]];
+            return tree1 < tree2;
+        });
+
+
+
+        int y_start = 0,  x_start = 0;
+        int dist_min = 0;
+        for(int i = 0; i < trees.size(); i ++){
+            int x_target = trees[i][0], y_target = trees[i][1];
+            int dist = dfs(x_start, y_start, x_target, y_target, vector<vector<int>> forest);
+            if (dist == -1) {
+                return -1;
+            }
+            dist_min += dist;
+            x_start = x_target;
+            y_start = y_target;
+
+        }
+        return dist_min;
+    }
+
+    int dfs(int x_s, int y_s, int x_t, int y_t, vector<vector<int>> forest){
+        unordered_set<tuple<int, int>> visited;
+        deque<tuple<int, int, int>> traverse = {{0, 0, 0}};
+        int path = 0;
+
+        vector<vector<int>> dposns = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
+        while (traverse.size()){
+            auto [x, y, len] = traverse.pop_front(forest.)
+            for(vector<int> dposn: dposns){
+                if(dposn[0] + x < )
+            }
+        }
+        return path;
+
+    }
+
 };
 
 class KthLargest {
