@@ -291,8 +291,13 @@ public:
         }
     }
 
+    struct Hash {
+        size_t operator()(const tuple<int, int>& t) const {
+            return hash<int>()(get<0>(t)) ^ hash<int>()(get<1>(t));
+        }
+    };
 
-    int shortest_path(vector<vector<int>> forest){
+    int shortest_path(vector<vector<int>>& forest){
         vector<vector<int>> trees;
         for(int row = 0; row < forest.size(); row++){
             for(int col = 0; col < forest[0].size(); col ++){
@@ -303,7 +308,7 @@ public:
             }
         }
 
-        sort(trees.begin(), trees.end(), [forest](const vector<int>& a, const vector<int>& b){
+        sort(trees.begin(), trees.end(), [&forest](const vector<int>& a, const vector<int>& b){
             int tree1 = forest[a[0]][a[1]];
             int tree2 = forest[b[0]][b[1]];
             return tree1 < tree2;
@@ -315,7 +320,7 @@ public:
         int dist_min = 0;
         for(int i = 0; i < trees.size(); i ++){
             int x_target = trees[i][0], y_target = trees[i][1];
-            int dist = dfs(x_start, y_start, x_target, y_target, vector<vector<int>> forest);
+            int dist = dfs(x_start, y_start, x_target, y_target, forest);
             if (dist == -1) {
                 return -1;
             }
@@ -327,19 +332,29 @@ public:
         return dist_min;
     }
 
-    int dfs(int x_s, int y_s, int x_t, int y_t, vector<vector<int>> forest){
-        unordered_set<tuple<int, int>> visited;
-        deque<tuple<int, int, int>> traverse = {{0, 0, 0}};
-        int path = 0;
+    int dfs(int x_s, int y_s, int x_t, int y_t, vector<vector<int>>& forest){
+        unordered_set<tuple<int, int>, Hash> visited;
+        deque<tuple<int, int, int>> traverse = {{x_s, y_s, 0}};
+        visited.insert({x_s, y_s});
 
-        vector<vector<int>> dposns = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
-        while (traverse.size()){
-            auto [x, y, len] = traverse.pop_front(forest.)
-            for(vector<int> dposn: dposns){
-                if(dposn[0] + x < )
+        vector<vector<int>> dposns = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        while (!traverse.empty()){
+            auto [x, y, path] = traverse.front(); 
+            traverse.pop_front();
+            if (x == x_t && y == y_t){
+                return path;
+            }
+            for(const vector<int>& dposn : dposns){
+                int nx = x + dposn[0];
+                int ny = y + dposn[1];
+                if((nx < forest.size() && 0 <= nx) && (ny < forest[0].size() && 0 <= nx) && !visited.count({nx, ny}) && forest[nx][ny] > 0){
+                        traverse.push_back({nx, ny, path + 1});
+                        visited.insert({x, y});
+                }
             }
         }
-        return path;
+
+        return -1;
 
     }
 
