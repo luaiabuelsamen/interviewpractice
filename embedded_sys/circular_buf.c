@@ -3,7 +3,7 @@
 
 #define CIRCULAR_BUF_SIZE 5
 
-typedef struct {
+typedef struct sCircularBuffer{
     int buf[CIRCULAR_BUF_SIZE];
     int isFull;
     int isEmpty;
@@ -60,3 +60,27 @@ eBUF_ACTION_STATUS readElement(int *num){
     return ret;
 }
 
+int main(){
+    addElement(0);
+    addElement(1);
+    addElement(2);
+    addElement(3);
+    addElement(4);
+    addElement(5);
+    addElement(6);
+    int val = 0;
+    readElement(&val);
+    printf("%d\n", val);
+    addElement(5);
+    readElement(&val);
+    printf("%d\n", val);
+    readElement(&val);
+    printf("%d\n", val);
+    readElement(&val);
+    printf("%d\n", val);
+    readElement(&val);
+    printf("%d\n", val);
+    readElement(&val);
+    printf("%d\n", val);
+    return 0;
+}
