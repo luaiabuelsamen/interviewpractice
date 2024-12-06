@@ -24,8 +24,8 @@ uint8_t test_and_flip (volatile uint32_t* pmemstart, uint8_t bit){
 int main(){
     volatile uint32_t bitmap[4] = {0};
 
-    uint8_t old_value = test_and_flip(bitmap, 5);
-    printf("Old value: %d, New word value: 0x%X\n", old_value, bitmap[0]);
+    uint8_t old_value = test_and_flip(bitmap, 127);
+    printf("Old value: %d, New word value: 0x%X\n", old_value, bitmap[3]);
 
     return 0;
 }
