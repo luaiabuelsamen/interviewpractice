@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+
+*/
 typedef enum {
     NOT_REVEALED = 0,
     REVEALED = 1,
@@ -61,6 +64,7 @@ void reveal(Coordinate pos){
         int nx = pos.x + dpos.x;
         int ny = pos.y + dpos.y;
         Coordinate nextCoord = {nx, ny};
+        
         if((nx >= 0 && nx < ROWS) && (ny < COLS && ny >= 0)){
             game[pos.x][pos.y].state == REVEALED;
             if(game[nx][ny].nearestMines == 0){

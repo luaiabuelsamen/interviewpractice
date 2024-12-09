@@ -166,3 +166,45 @@ def most_words(paragraph: str, blocked: list[str]):
                 max_count = word_count[word]
                 max_word = word
     return max_word
+
+def removeMinUnique(nums, maxUnique):
+    counts = {}
+    for num in nums:
+        if num in counts:
+            counts[num] += 1
+        else:
+            counts[num] = 1
+    
+    sorted_nums = sorted(nums, reverse=True)
+    removals = 0
+
+    while(len(sorted_nums) > maxUnique):
+        removals += counts.pop()
+
+def maxMedian(nums):
+    sorted_nums = sorted(nums)
+
+    maxMedian = 0
+
+    while(len(sorted_nums) >= 3):
+        sorted_nums.pop()
+        maxMedian += sorted_nums.pop()
+        sorted_nums.pop(0)
+    
+    return maxMedian
+
+def returnToOrigin(sequence):
+    steps = sequence.split()
+    dirs = {
+        "N": [0, 1],
+        "S": [0, -1],
+        "W": [-1, 0],
+        "E": [0, 1]
+    }
+    origin = [0, 0]
+    for step in steps:
+        direction = dir[step[0]]
+        mag = int(step[1:])
+        origin += [direction[0]*mag + origin[0], direction[1]*mag + origin[1]]
+    return origin == [0, 0]
+
