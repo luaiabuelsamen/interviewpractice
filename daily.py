@@ -208,3 +208,40 @@ def returnToOrigin(sequence):
         origin += [direction[0]*mag + origin[0], direction[1]*mag + origin[1]]
     return origin == [0, 0]
 
+def interp(X, Y, x):
+    left, right = 0, len(X) - 1
+    while left < right:
+        mid = left + (right - left) // 2
+        if X[mid] == x:
+            return Y[mid]
+        elif X[mid] < x:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    if left == 0:
+        return Y[0]
+    
+    return (Y[left] - Y[left - 1]) / (X[left] - X[left - 1]) * (x - X[left - 1]) + Y[left - 1]
+
+
+def deleteNode(root, key):
+    if not root:
+        return None
+    
+    if root.val < key:
+        root.right = deleteNode(root.right, key)
+    elif root.val > key:
+        root.left = deleteNode(root.left, key)
+    else:
+        if not root.right:
+            return root.left
+        if not root.left:
+            return root.right
+        else:
+            cur = root.right
+            while cur.left:
+                cur = cur.left
+            root.val = cur.val
+            root.right = deleteNode(root.right, cur.val)
+    return root
